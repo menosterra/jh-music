@@ -212,19 +212,17 @@ function playSong(index) {
         return;
     }
 
-    // Instant Source Swap & Play
-    audioPlayer.src = song.audio_url;
-    audioPlayer.preload = 'auto';
+    // Instant Source Swap & Mobile Optimized Play
+    if (audioPlayer.src !== song.audio_url) {
+        audioPlayer.src = song.audio_url;
+    }
 
     const playPromise = audioPlayer.play();
     if (playPromise !== undefined) {
         playPromise.catch(e => {
-            console.log("Audio play caught:", e);
+            console.log("Audio play caught (waiting for user interaction):", e);
         });
     }
-
-    // Preload next track in background
-    setTimeout(preloadNextTrack, 1000);
 }
 
 function updateHighlight(song) {

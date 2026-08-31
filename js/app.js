@@ -167,16 +167,21 @@ function renderPlaylist() {
     });
 }
 
-// 🎵 Audio Playback Engine
-let fadeOutInterval = null;
+// 🎵 Audio Playback Engine (Optimized for Instant Streaming)
+let nextTrackPreloader = new Audio();
+
+function preloadNextTrack() {
+    if (currentPlaylist.length === 0) return;
+    const nextIdx = (currentIndex < currentPlaylist.length - 1) ? currentIndex + 1 : 0;
+    const nextSong = currentPlaylist[nextIdx];
+    if (nextSong && nextSong.audio_url) {
+        nextTrackPreloader.src = nextSong.audio_url;
+        nextTrackPreloader.preload = 'auto';
+    }
+}
 
 function playSong(index) {
     if (currentPlaylist.length === 0) return;
-
-    if (fadeOutInterval) {
-        clearInterval(fadeOutInterval);
-        fadeOutInterval = null;
-    }
 
     currentIndex = index;
     const song = currentPlaylist[currentIndex];
@@ -207,42 +212,19 @@ function playSong(index) {
         return;
     }
 
-    const originalVolume = audioPlayer.volume || 1;
+    // Instant Source Swap & Play
+    audioPlayer.src = song.audio_url;
+    audioPlayer.preload = 'auto';
 
-    const startPlay = () => {
-        audioPlayer.src = song.audio_url;
-        try {
-            audioPlayer.load();
-        } catch (e) {}
-
-        const playPromise = audioPlayer.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(e => {
-                console.log("Audio play caught:", e);
-            });
-        }
-    };
-
-    if (!audioPlayer.paused && originalVolume > 0) {
-        let currentVol = originalVolume;
-        const step = originalVolume / 6;
-        fadeOutInterval = setInterval(() => {
-            currentVol -= step;
-            if (currentVol <= 0) {
-                clearInterval(fadeOutInterval);
-                fadeOutInterval = null;
-                audioPlayer.volume = 0;
-                audioPlayer.pause();
-                audioPlayer.volume = originalVolume;
-                startPlay();
-            } else {
-                audioPlayer.volume = currentVol;
-            }
-        }, 5);
-    } else {
-        audioPlayer.pause();
-        startPlay();
+    const playPromise = audioPlayer.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(e => {
+            console.log("Audio play caught:", e);
+        });
     }
+
+    // Preload next track in background
+    setTimeout(preloadNextTrack, 1000);
 }
 
 function updateHighlight(song) {

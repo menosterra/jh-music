@@ -24,8 +24,24 @@ let isRepeat = 'all'; // 'all', 'one', 'off'
 const playSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 25,18 12,10 z"></path></svg>`;
 const pauseSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 16,26 16,10 12,10 z M 20,10 20,26 24,26 24,10 z"></path></svg>`;
 
+// 📱 Mobile Audio Unlock (모바일 브라우저 오디오 지연 완벽 해소)
+function initMobileAudioUnlock() {
+    const unlock = () => {
+        audioPlayer.play().then(() => {
+            if (audioPlayer.paused) return;
+        }).catch(() => {});
+        window.removeEventListener('touchstart', unlock, true);
+        window.removeEventListener('touchend', unlock, true);
+        window.removeEventListener('click', unlock, true);
+    };
+    window.addEventListener('touchstart', unlock, true);
+    window.addEventListener('touchend', unlock, true);
+    window.addEventListener('click', unlock, true);
+}
+
 // 📦 Application Initialization
 async function init() {
+    initMobileAudioUnlock();
     titleEl.textContent = 'Loading music...';
     try {
         const res = await fetch('playlists.json');

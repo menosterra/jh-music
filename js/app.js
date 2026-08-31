@@ -167,19 +167,7 @@ function renderPlaylist() {
     });
 }
 
-// 🎵 Audio Playback Engine (Optimized for Instant Streaming)
-let nextTrackPreloader = new Audio();
-
-function preloadNextTrack() {
-    if (currentPlaylist.length === 0) return;
-    const nextIdx = (currentIndex < currentPlaylist.length - 1) ? currentIndex + 1 : 0;
-    const nextSong = currentPlaylist[nextIdx];
-    if (nextSong && nextSong.audio_url) {
-        nextTrackPreloader.src = nextSong.audio_url;
-        nextTrackPreloader.preload = 'auto';
-    }
-}
-
+// 🎵 Audio Playback Engine
 function playSong(index) {
     if (currentPlaylist.length === 0) return;
 
@@ -212,15 +200,11 @@ function playSong(index) {
         return;
     }
 
-    // Instant Source Swap & Mobile Optimized Play
-    if (audioPlayer.src !== song.audio_url) {
-        audioPlayer.src = song.audio_url;
-    }
-
+    audioPlayer.src = song.audio_url;
     const playPromise = audioPlayer.play();
     if (playPromise !== undefined) {
         playPromise.catch(e => {
-            console.log("Audio play caught (waiting for user interaction):", e);
+            console.log("Audio play caught:", e);
         });
     }
 }

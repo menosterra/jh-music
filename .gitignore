@@ -4,3 +4,7 @@ __pycache__/
 Thumbs.db
 desktop.ini
 songs/
+server.py
+run_local_server.bat
+sync_songs.py
+sync_gcs.py

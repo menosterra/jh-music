@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Music Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Player Component -->
+    <div class="player-container">
+        <div class="player-visual-area">
+            <div class="left-controls">
+                <!-- Settings Button -->
+                <button class="icon-btn" onclick="toggleSettingsModal()" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+                <!-- Next Track Button -->
+                <button class="icon-btn" onclick="playNext()" title="Next Track">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                        <line x1="19" y1="5" x2="19" y2="19"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="play-container">
+                <!-- Play Button -->
+                <button id="play-pause-btn" class="play-btn" onclick="togglePlay()" title="Play / Pause">
+                    <svg id="play-icon-svg" width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none">
+                        <path d="M 12,26 25,18 12,10 z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="side-controls">
+                <button id="repeat-btn" class="icon-btn active-mode" onclick="toggleRepeat()" title="Continuous Play">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                    <span id="repeat-one-badge" class="repeat-badge">1</span>
+                </button>
+                <button id="shuffle-btn" class="icon-btn active-mode" onclick="toggleShuffle()" title="Shuffle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 3 21 3 21 8"></polyline>
+                        <line x1="4" y1="20" x2="21" y2="3"></line>
+                        <polyline points="21 16 21 21 16 21"></polyline>
+                        <line x1="15" y1="15" x2="21" y2="21"></line>
+                        <line x1="4" y1="4" x2="9" y2="9"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="progress-area">
+            <input type="range" id="progress-bar" min="0" value="0" step="0.1">
+        </div>
+
+        <div id="current-song-title">Loading music...</div>
+
+        <!-- Audio Object -->
+        <audio id="audio-player" preload="metadata" style="display:none;" controlsList="nodownload noplaybackrate" playsinline></audio>
+    </div>
+
+    <!-- Main Grid Content -->
+    <div class="main-content">
+        <!-- Column 1: Playlists / Folders List -->
+        <div class="panel">
+            <h3 class="panel-icon-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </h3>
+            <div id="folder-list" class="scrollable-content">
+                <!-- JS Rendered -->
+            </div>
+        </div>
+
+        <!-- Column 2: Track List -->
+        <div class="panel">
+            <h3 class="panel-icon-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="9" y1="6" x2="21" y2="6"></line>
+                    <line x1="9" y1="12" x2="21" y2="12"></line>
+                    <line x1="9" y1="18" x2="21" y2="18"></line>
+                    <line x1="4" y1="6" x2="4.01" y2="6"></line>
+                    <line x1="4" y1="12" x2="4.01" y2="12"></line>
+                    <line x1="4" y1="18" x2="4.01" y2="18"></line>
+                </svg>
+            </h3>
+            <ul class="song-list scrollable-content" id="playlist">
+                <!-- JS Rendered -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Unified Settings Modal -->
+    <div id="settings-modal" class="modal" onclick="toggleSettingsModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header-title" style="font-weight: 600; font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px; text-align: center;">
+                General Settings
+            </div>
+
+            <!-- General Content -->
+            <div id="general-tab" class="general-info-container">
+                <div class="general-app-desc" style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.88rem; line-height: 1.5;">
+                    Personal music streaming player connected to Google Drive music folders.
+                </div>
+                
+                <div class="general-section" style="margin-bottom: 14px; background: rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600; color: var(--primary-color); font-size: 0.9rem;">App Version</span>
+                        <span id="app-version-badge" style="background: var(--primary-color); color: #000; font-weight: bold; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px;">v5.0.0 (Cloud Run)</span>
+                    </div>
+                </div>
+
+                <div class="general-section" style="margin-bottom: 14px;">
+                    <div class="general-section-title" style="font-weight: 600; color: var(--primary-color); font-size: 0.95rem; margin-bottom: 6px;">Background Play Setup</div>
+                    <ol class="general-list" style="margin: 0; padding-left: 20px; color: #ccc; font-size: 0.85rem; line-height: 1.6;">
+                        <li>Phone Settings &gt; Apps &gt; Chrome</li>
+                        <li>Battery &gt; Set to Unrestricted</li>
+                    </ol>
+                </div>
+
+                <div class="general-section" style="margin-bottom: 14px;">
+                    <div class="general-section-title" style="font-weight: 600; color: var(--primary-color); font-size: 0.95rem; margin-bottom: 6px;">Song Title Setup on Lock Screen</div>
+                    <ol class="general-list" style="margin: 0; padding-left: 20px; color: #ccc; font-size: 0.85rem; line-height: 1.6;">
+                        <li>Phone Settings &gt; Apps &gt; Chrome</li>
+                        <li>Notifications &gt; Show notifications</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="modal-buttons" style="justify-content: center; margin-top: 20px;">
+                <button class="btn-secondary" onclick="toggleSettingsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=3.2.0"></script>
+</body>
+
+</html>

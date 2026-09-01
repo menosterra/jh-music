@@ -1,11 +1,15 @@
-# Google Cloud 기반 음악 스트리밍 서비스
+# Personal Music Streaming Service (JH Music)
 
-Google Cloud Storage(GCS)와 Google Cloud Run(무료 티어 최적화)을 이용한 경량 음악 스트리밍 웹 플레이어입니다.
+웹 브라우저 및 GitHub Pages에서 동작하는 고음질 개인용 음악 스트리밍 웹 플레이어입니다.
 
-## 📌 주요 구성
-- **음원 저장소**: Google Cloud Storage (`music-stream` 버킷 `songs/` 경로)
-- **프론트엔드/웹 서버**: [index.html](file:///c:/Project/Music_Streaming_Service/index.html), [server.py](file:///c:/Project/Music_Streaming_Service/server.py) (Cloud Run 컨테이너)
-- **플레이리스트**: [playlists.json](file:///c:/Project/Music_Streaming_Service/playlists.json) (GCS 음원 URL 기반 107곡 구성 완료)
+## 🎵 주요 기능
+- **GitHub Pages 100% 호환**: 서버/비용 없이 스마트폰, 태블릿, PC 어디서나 24시간 스트리밍
+- **무제한 초고속 스트리밍**: GitHub CDN을 통한 즉각 재생 및 트랙 탐색
+- **플레이어 기능**: 재생/일시정지, 이전/다음 트랙, 셔플(랜덤), 반복(전체/한 곡) 모드 지원
+- **반응형 모던 다크 테마 UI**
+
+## 🌐 접속 주소
+👉 **https://menosterra.github.io/jh-music/**
 
 ## 🚀 Google Cloud 무료 리소스 설정 (CPU / 메모리 최소화)
 - **CPU**: 1 vCPU (요청 시에만 활성화)

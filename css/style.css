@@ -435,3 +435,77 @@ input[type=range]:hover::-webkit-slider-thumb {
         font-size: 0.82em;
     }
 }
+
+/* Search Box Styling */
+.panel-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.panel-header-row .panel-icon-title {
+    margin-bottom: 0;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 220px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 8px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+#search-input {
+    width: 100%;
+    padding: 6px 26px 6px 28px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    color: var(--text-main);
+    font-size: 0.82rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    box-sizing: border-box;
+}
+
+#search-input:focus {
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.search-clear-btn:hover {
+    color: var(--text-main);
+}
+
+.song-folder-tag {
+    font-size: 0.72rem;
+    color: var(--primary-color);
+    background: rgba(163, 217, 165, 0.12);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+

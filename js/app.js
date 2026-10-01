@@ -75,7 +75,17 @@ function renderFolderList() {
     }
 }
 
+let isSearching = false;
+
 function selectFolder(folderName, autoPlay = true) {
+    const searchInput = document.getElementById('search-input');
+    const clearBtn = document.getElementById('search-clear-btn');
+    if (searchInput && searchInput.value) {
+        searchInput.value = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        isSearching = false;
+    }
+
     currentFolder = folderName;
 
     document.querySelectorAll('.folder-item').forEach(el => el.classList.remove('active'));
@@ -129,6 +139,7 @@ function selectFolder(folderName, autoPlay = true) {
 }
 
 function renderPlaylist() {
+    if (isSearching) return;
     playlistEl.innerHTML = '';
     if (originalSongs.length === 0) return;
 
@@ -165,6 +176,94 @@ function renderPlaylist() {
 
         playlistEl.appendChild(li);
     });
+}
+
+// 🔍 Search Engine Implementation
+function handleSearch(query) {
+    const clearBtn = document.getElementById('search-clear-btn');
+    if (clearBtn) {
+        clearBtn.style.display = query.trim() ? 'block' : 'none';
+    }
+
+    const q = query.trim().toLowerCase();
+    if (!q) {
+        isSearching = false;
+        renderPlaylist();
+        const currentSong = currentPlaylist[currentIndex];
+        if (currentSong) updateHighlight(currentSong);
+        return;
+    }
+
+    isSearching = true;
+    const results = [];
+    for (const folderName in foldersData) {
+        foldersData[folderName].forEach(song => {
+            if (song.name.toLowerCase().includes(q) || folderName.toLowerCase().includes(q)) {
+                results.push({ ...song, folder: folderName });
+            }
+        });
+    }
+
+    renderSearchResults(results, q);
+}
+
+function clearSearch() {
+    const input = document.getElementById('search-input');
+    if (input) {
+        input.value = '';
+    }
+    handleSearch('');
+}
+
+function renderSearchResults(results, query) {
+    playlistEl.innerHTML = '';
+    if (results.length === 0) {
+        playlistEl.innerHTML = `<li class="song-item" style="cursor:default; color: #888; justify-content: center; padding: 18px 10px;">No songs found matching "${query}"</li>`;
+        return;
+    }
+
+    results.forEach((song, idx) => {
+        const li = document.createElement('li');
+        li.className = 'song-item';
+        li.id = `search-song-${idx}`;
+
+        const currentSong = currentPlaylist[currentIndex];
+        if (currentSong && currentSong.id === song.id) {
+            li.classList.add('active');
+        }
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'song-title';
+        titleSpan.textContent = song.name;
+
+        const folderTag = document.createElement('span');
+        folderTag.className = 'song-folder-tag';
+        folderTag.textContent = song.folder;
+
+        li.appendChild(titleSpan);
+        li.appendChild(folderTag);
+
+        li.onclick = () => {
+            selectFolderAndPlay(song.folder, song.id);
+        };
+
+        playlistEl.appendChild(li);
+    });
+}
+
+function selectFolderAndPlay(folderName, songId) {
+    clearSearch();
+    selectFolder(folderName, false);
+
+    const playIdx = currentPlaylist.findIndex(s => s.id === songId);
+    if (playIdx !== -1) {
+        playSong(playIdx);
+    } else {
+        const origIdx = originalSongs.findIndex(s => s.id === songId);
+        if (origIdx !== -1) {
+            playSong(origIdx);
+        }
+    }
 }
 
 // 🎵 Audio Playback Engine

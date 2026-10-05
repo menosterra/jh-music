@@ -1,6 +1,6 @@
 /**
  * SUNO Playlist Player - Core Application Engine
- * Google Drive Local Audio Streaming Engine
+ * High Performance Clean Audio Streaming Engine
  */
 
 const audioPlayer = document.getElementById('audio-player');
@@ -24,6 +24,21 @@ let isRepeat = 'all'; // 'all', 'one', 'off'
 const playSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 25,18 12,10 z"></path></svg>`;
 const pauseSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 16,26 16,10 12,10 z M 20,10 20,26 24,26 24,10 z"></path></svg>`;
 
+// 🧹 확실한 이전 오디오 메모리 및 버퍼 해제 함수
+function releaseAudioResources() {
+    try {
+        if (!audioPlayer.paused) {
+            audioPlayer.pause();
+        }
+        audioPlayer.currentTime = 0;
+        audioPlayer.removeAttribute('src');
+        audioPlayer.src = '';
+        audioPlayer.load(); // 브라우저 내부 디코더 및 스트림 버퍼 완전 해제
+    } catch (e) {
+        console.warn("Audio resource cleanup:", e);
+    }
+}
+
 // 📦 Application Initialization
 async function init() {
     titleEl.textContent = 'Loading music...';
@@ -45,8 +60,8 @@ async function init() {
         if (folderNames.length > 0) {
             selectFolder(folderNames[0], false); // Preload first folder without autoplay
         } else {
-            titleEl.textContent = 'No music folders found in Google Drive';
-            playlistEl.innerHTML = '<li class="song-item" style="cursor:default; color: #555;">No audio files found in G:\\내 드라이브\\Music_Streaming</li>';
+            titleEl.textContent = 'No music folders found';
+            playlistEl.innerHTML = '<li class="song-item" style="cursor:default; color: #555;">No audio files found.</li>';
         }
 
         setupMediaSessionHandlers();
@@ -75,17 +90,7 @@ function renderFolderList() {
     }
 }
 
-let isSearching = false;
-
 function selectFolder(folderName, autoPlay = true) {
-    const searchInput = document.getElementById('search-input');
-    const clearBtn = document.getElementById('search-clear-btn');
-    if (searchInput && searchInput.value) {
-        searchInput.value = '';
-        if (clearBtn) clearBtn.style.display = 'none';
-        isSearching = false;
-    }
-
     currentFolder = folderName;
 
     document.querySelectorAll('.folder-item').forEach(el => el.classList.remove('active'));
@@ -128,8 +133,10 @@ function selectFolder(folderName, autoPlay = true) {
             }
             updateHighlight(song);
 
-            // Preload song
+            // Preload song with clean state
+            releaseAudioResources();
             audioPlayer.src = song.audio_url;
+            audioPlayer.load();
 
             if ('mediaSession' in navigator) {
                 updateMediaSessionMetadata();
@@ -139,7 +146,6 @@ function selectFolder(folderName, autoPlay = true) {
 }
 
 function renderPlaylist() {
-    if (isSearching) return;
     playlistEl.innerHTML = '';
     if (originalSongs.length === 0) return;
 
@@ -178,95 +184,7 @@ function renderPlaylist() {
     });
 }
 
-// 🔍 Search Engine Implementation
-function handleSearch(query) {
-    const clearBtn = document.getElementById('search-clear-btn');
-    if (clearBtn) {
-        clearBtn.style.display = query.trim() ? 'block' : 'none';
-    }
-
-    const q = query.trim().toLowerCase();
-    if (!q) {
-        isSearching = false;
-        renderPlaylist();
-        const currentSong = currentPlaylist[currentIndex];
-        if (currentSong) updateHighlight(currentSong);
-        return;
-    }
-
-    isSearching = true;
-    const results = [];
-    for (const folderName in foldersData) {
-        foldersData[folderName].forEach(song => {
-            if (song.name.toLowerCase().includes(q) || folderName.toLowerCase().includes(q)) {
-                results.push({ ...song, folder: folderName });
-            }
-        });
-    }
-
-    renderSearchResults(results, q);
-}
-
-function clearSearch() {
-    const input = document.getElementById('search-input');
-    if (input) {
-        input.value = '';
-    }
-    handleSearch('');
-}
-
-function renderSearchResults(results, query) {
-    playlistEl.innerHTML = '';
-    if (results.length === 0) {
-        playlistEl.innerHTML = `<li class="song-item" style="cursor:default; color: #888; justify-content: center; padding: 18px 10px;">No songs found matching "${query}"</li>`;
-        return;
-    }
-
-    results.forEach((song, idx) => {
-        const li = document.createElement('li');
-        li.className = 'song-item';
-        li.id = `search-song-${idx}`;
-
-        const currentSong = currentPlaylist[currentIndex];
-        if (currentSong && currentSong.id === song.id) {
-            li.classList.add('active');
-        }
-
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'song-title';
-        titleSpan.textContent = song.name;
-
-        const folderTag = document.createElement('span');
-        folderTag.className = 'song-folder-tag';
-        folderTag.textContent = song.folder;
-
-        li.appendChild(titleSpan);
-        li.appendChild(folderTag);
-
-        li.onclick = () => {
-            selectFolderAndPlay(song.folder, song.id);
-        };
-
-        playlistEl.appendChild(li);
-    });
-}
-
-function selectFolderAndPlay(folderName, songId) {
-    clearSearch();
-    selectFolder(folderName, false);
-
-    const playIdx = currentPlaylist.findIndex(s => s.id === songId);
-    if (playIdx !== -1) {
-        playSong(playIdx);
-    } else {
-        const origIdx = originalSongs.findIndex(s => s.id === songId);
-        if (origIdx !== -1) {
-            playSong(origIdx);
-        }
-    }
-}
-
-// 🎵 Audio Playback Engine
+// 🎵 Audio Playback Engine (메모리 완전 정리 & 다음 곡 재생)
 function playSong(index) {
     if (currentPlaylist.length === 0) return;
 
@@ -274,7 +192,10 @@ function playSong(index) {
     const song = currentPlaylist[currentIndex];
     if (!song) return;
 
-    // Highlight and title sync
+    // 1. 이전 곡의 메모리 버퍼와 디코더를 확실하게 해제
+    releaseAudioResources();
+
+    // 2. 제목 및 하이라이트 동기화
     if (titleEl) {
         const sameTitleSongs = originalSongs.filter(s => s.name === song.name);
         if (sameTitleSongs.length > 1) {
@@ -286,7 +207,7 @@ function playSong(index) {
     }
     updateHighlight(song);
 
-    // MediaSession Metadata sync
+    // 3. MediaSession Metadata sync
     if ('mediaSession' in navigator) {
         updateMediaSessionMetadata();
     }
@@ -299,7 +220,9 @@ function playSong(index) {
         return;
     }
 
+    // 4. 새 음원 URL 로드 및 재생
     audioPlayer.src = song.audio_url;
+    audioPlayer.load();
     const playPromise = audioPlayer.play();
     if (playPromise !== undefined) {
         playPromise.catch(e => {

@@ -1,6 +1,6 @@
 {
   "app_name": "Music Player",
-  "version": "2.1.0",
+  "version": "3.4.0",
   "preloaded_folders": {
     "Bossanova": [
       {
@@ -872,6 +872,128 @@
         "name": "20_Weave",
         "audio_url": "music/Urban%20Heritage/20_Weave.mp3",
         "folder": "Urban Heritage"
+      }
+    ],
+    "Urban Heritage (Re)": [
+      {
+        "id": "Urban Heritage (Re)_01_Faded.mp3",
+        "name": "01_Faded",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/01_Faded.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_02_Urban Flow.mp3",
+        "name": "02_Urban Flow",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/02_Urban%20Flow.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_03_Ascent.mp3",
+        "name": "03_Ascent",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/03_Ascent.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_04_Relative.mp3",
+        "name": "04_Relative",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/04_Relative.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_05_Finding My Pace.mp3",
+        "name": "05_Finding My Pace",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/05_Finding%20My%20Pace.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_06_Better This Way.mp3",
+        "name": "06_Better This Way",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/06_Better%20This%20Way.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_07_Downtown Glide.mp3",
+        "name": "07_Downtown Glide",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/07_Downtown%20Glide.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_08_In Due Time.mp3",
+        "name": "08_In Due Time",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/08_In%20Due%20Time.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_09_Closing The Chapter.mp3",
+        "name": "09_Closing The Chapter",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/09_Closing%20The%20Chapter.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_10_On The Road.mp3",
+        "name": "10_On The Road",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/10_On%20The%20Road.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_11_So It Goes.mp3",
+        "name": "11_So It Goes",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/11_So%20It%20Goes.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_12_Extended Line.mp3",
+        "name": "12_Extended Line",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/12_Extended%20Line.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_13_Nerve.mp3",
+        "name": "13_Nerve",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/13_Nerve.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_14_Refinement.mp3",
+        "name": "14_Refinement",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/14_Refinement.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_15_Skew.mp3",
+        "name": "15_Skew",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/15_Skew.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_16_Gentle Hesitation.mp3",
+        "name": "16_Gentle Hesitation",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/16_Gentle%20Hesitation.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_17_Confusion.mp3",
+        "name": "17_Confusion",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/17_Confusion.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_18_Daily Rhythm.mp3",
+        "name": "18_Daily Rhythm",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/18_Daily%20Rhythm.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_19_Chasing The Light.mp3",
+        "name": "19_Chasing The Light",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/19_Chasing%20The%20Light.mp3",
+        "folder": "Urban Heritage (Re)"
+      },
+      {
+        "id": "Urban Heritage (Re)_20_Weave.mp3",
+        "name": "20_Weave",
+        "audio_url": "music/Urban%20Heritage%20%28Re%29/20_Weave.mp3",
+        "folder": "Urban Heritage (Re)"
       }
     ]
   }

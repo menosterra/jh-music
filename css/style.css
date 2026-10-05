@@ -193,11 +193,11 @@ input[type=range]:hover::-webkit-slider-thumb {
     min-height: 1.2em;
 }
 
-/* 2-Column Grid Layout */
+/* 2-Column Grid Layout (Equal Width for Folders & Tracks) */
 .main-content {
     display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     flex-grow: 1;
     overflow: hidden;
 }

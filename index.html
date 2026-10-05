@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Music Player</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=3.3.0">
+    <link rel="stylesheet" href="css/style.css?v=3.4.0">
 </head>
 
 <body>
@@ -75,12 +75,12 @@
         <audio id="audio-player" preload="metadata" style="display:none;" controlsList="nodownload noplaybackrate" playsinline></audio>
     </div>
 
-    <!-- Main Grid Content -->
+    <!-- Main Grid Content (50% : 50% Equal Width) -->
     <div class="main-content">
-        <!-- Column 1: Playlists / Folders List -->
+        <!-- Column 1: Folders List -->
         <div class="panel">
             <h3 class="panel-icon-title">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                 </svg>
@@ -92,27 +92,17 @@
 
         <!-- Column 2: Track List -->
         <div class="panel">
-            <div class="panel-header-row">
-                <h3 class="panel-icon-title">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="9" y1="6" x2="21" y2="6"></line>
-                        <line x1="9" y1="12" x2="21" y2="12"></line>
-                        <line x1="9" y1="18" x2="21" y2="18"></line>
-                        <line x1="4" y1="6" x2="4.01" y2="6"></line>
-                        <line x1="4" y1="12" x2="4.01" y2="12"></line>
-                        <line x1="4" y1="18" x2="4.01" y2="18"></line>
-                    </svg>
-                </h3>
-                <div class="search-container">
-                    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="search-input" placeholder="Search songs..." autocomplete="off" oninput="handleSearch(this.value)">
-                    <button id="search-clear-btn" class="search-clear-btn" onclick="clearSearch()" title="Clear search" style="display:none;">&times;</button>
-                </div>
-            </div>
+            <h3 class="panel-icon-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="9" y1="6" x2="21" y2="6"></line>
+                    <line x1="9" y1="12" x2="21" y2="12"></line>
+                    <line x1="9" y1="18" x2="21" y2="18"></line>
+                    <line x1="4" y1="6" x2="4.01" y2="6"></line>
+                    <line x1="4" y1="12" x2="4.01" y2="12"></line>
+                    <line x1="4" y1="18" x2="4.01" y2="18"></line>
+                </svg>
+            </h3>
             <ul class="song-list scrollable-content" id="playlist">
                 <!-- JS Rendered -->
             </ul>
@@ -135,7 +125,7 @@
                 <div class="general-section" style="margin-bottom: 14px; background: rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-weight: 600; color: var(--primary-color); font-size: 0.9rem;">App Version</span>
-                        <span id="app-version-badge" style="background: var(--primary-color); color: #000; font-weight: bold; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px;">v5.0.0 (Cloud Run)</span>
+                        <span id="app-version-badge" style="background: var(--primary-color); color: #000; font-weight: bold; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px;">v5.1.0</span>
                     </div>
                 </div>
 
@@ -162,7 +152,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=3.3.0"></script>
+    <script src="js/app.js?v=3.4.0"></script>
 </body>
 
 </html>

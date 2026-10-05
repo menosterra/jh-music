@@ -1,6 +1,6 @@
 /**
  * SUNO Playlist Player - Core Application Engine
- * High Performance Clean Audio Streaming Engine
+ * Ultra-Smooth High Performance Clean Audio Streaming Engine
  */
 
 const audioPlayer = document.getElementById('audio-player');
@@ -24,40 +24,12 @@ let isRepeat = 'all'; // 'all', 'one', 'off'
 const playSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 25,18 12,10 z"></path></svg>`;
 const pauseSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor" stroke="none"><path d="M 12,26 16,26 16,10 12,10 z M 20,10 20,26 24,26 24,10 z"></path></svg>`;
 
-// 🧹 팝/클릭 노이즈 완벽 차단을 위한 스무스 트랙 전환 엔진
-let isFading = false;
-
-function smoothStop(callback) {
-    if (audioPlayer.paused || isFading) {
-        try {
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-        } catch (e) {}
-        if (callback) callback();
-        return;
-    }
-
-    isFading = true;
-    const fadeSteps = 4;
-    const stepTime = 5; // 총 20ms 마이크로 감쇠
-    let step = 0;
-    const initialVol = audioPlayer.volume || 1.0;
-
-    const fadeTimer = setInterval(() => {
-        step++;
-        audioPlayer.volume = Math.max(0, initialVol * (1 - step / fadeSteps));
-        if (step >= fadeSteps) {
-            clearInterval(fadeTimer);
-            try {
-                audioPlayer.pause();
-                audioPlayer.currentTime = 0;
-            } catch (e) {}
-            audioPlayer.volume = initialVol;
-            isFading = false;
-            if (callback) callback();
-        }
-    }, stepTime);
-}
+// 🏷️ 폴더 표시명 매핑 (모바일 화면 잘림 방지용 축약명 지원)
+const FOLDER_DISPLAY_NAMES = {
+    "Urban Dynamics": "UD",
+    "Urban Heritage": "UH",
+    "Urban Heritage (Re)": "UH (Re)"
+};
 
 // 📦 Application Initialization
 async function init() {
@@ -91,13 +63,6 @@ async function init() {
         playlistEl.innerHTML = '<li class="song-item" style="cursor:default; color: #ff6b6b;">Error loading audio files.</li>';
     }
 }
-
-// 🏷️ 폴더 표시명 매핑 (모바일 화면 잘림 방지용 축약명 지원)
-const FOLDER_DISPLAY_NAMES = {
-    "Urban Dynamics": "UD",
-    "Urban Heritage": "UH",
-    "Urban Heritage (Re)": "UH (Re)"
-};
 
 // 📁 Folder & Track Rendering
 function renderFolderList() {
@@ -163,10 +128,9 @@ function selectFolder(folderName, autoPlay = true) {
             }
             updateHighlight(song);
 
-            // Preload song with clean state
-            releaseAudioResources();
+            // Preload clean state
+            audioPlayer.pause();
             audioPlayer.src = song.audio_url;
-            audioPlayer.load();
 
             if ('mediaSession' in navigator) {
                 updateMediaSessionMetadata();
@@ -214,7 +178,7 @@ function renderPlaylist() {
     });
 }
 
-// 🎵 Audio Playback Engine (팝/클릭 방지 부드러운 전환 & 메모리 정리)
+// 🎵 Audio Playback Engine (초고속 무지연 자연스러운 전환)
 function playSong(index) {
     if (currentPlaylist.length === 0) return;
 
@@ -222,7 +186,7 @@ function playSong(index) {
     const song = currentPlaylist[currentIndex];
     if (!song) return;
 
-    // 1. 제목 및 하이라이트 동기화 (즉각 반영)
+    // 1. UI 및 타이틀 즉각 동기화
     if (titleEl) {
         const sameTitleSongs = originalSongs.filter(s => s.name === song.name);
         if (sameTitleSongs.length > 1) {
@@ -234,7 +198,7 @@ function playSong(index) {
     }
     updateHighlight(song);
 
-    // 2. MediaSession Metadata sync
+    // 2. MediaSession 메타데이터 동기화
     if ('mediaSession' in navigator) {
         updateMediaSessionMetadata();
     }
@@ -247,29 +211,24 @@ function playSong(index) {
         return;
     }
 
-    // 3. 부드러운 오디오 정지(Micro Fade-Out) 후 새 음원 재생
-    smoothStop(() => {
-        audioPlayer.src = song.audio_url;
-        audioPlayer.currentTime = 0;
-        
-        // 새 트랙 소프트 페이드인 (10ms)
-        const targetVol = 1.0;
-        audioPlayer.volume = 0.05;
-
-        const playPromise = audioPlayer.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                setTimeout(() => {
-                    audioPlayer.volume = targetVol;
-                }, 15);
-            }).catch(e => {
-                console.log("Audio play caught:", e);
-                audioPlayer.volume = targetVol;
-            });
-        } else {
-            audioPlayer.volume = targetVol;
+    // 3. 부드럽고 확실한 새 오디오 전환 (브라우저 네이티브 클린 스트림 로딩)
+    try {
+        if (!audioPlayer.paused) {
+            audioPlayer.pause();
         }
-    });
+    } catch (e) {}
+
+    audioPlayer.src = song.audio_url;
+    audioPlayer.currentTime = 0;
+
+    const playPromise = audioPlayer.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(e => {
+            if (e.name !== 'AbortError') {
+                console.log("Audio play caught:", e);
+            }
+        });
+    }
 }
 
 function updateHighlight(song) {
@@ -338,7 +297,9 @@ window.togglePlay = function () {
         return;
     }
     if (audioPlayer.paused) {
-        audioPlayer.play().catch(e => console.log("Play failed:", e));
+        audioPlayer.play().catch(e => {
+            if (e.name !== 'AbortError') console.log("Play failed:", e);
+        });
     } else {
         audioPlayer.pause();
     }
@@ -368,12 +329,6 @@ audioPlayer.addEventListener('play', () => {
     if ('mediaSession' in navigator) {
         updateMediaSessionMetadata();
         navigator.mediaSession.playbackState = "playing";
-    }
-});
-
-audioPlayer.addEventListener('waiting', () => {
-    if (titleEl && currentPlaylist[currentIndex]) {
-        titleEl.textContent = `${currentPlaylist[currentIndex].name} (Buffering...)`;
     }
 });
 
@@ -422,7 +377,9 @@ audioPlayer.addEventListener('ended', () => {
             playSong(currentIndex + 1);
         } else {
             audioPlayer.currentTime = 0;
-            audioPlayer.play().catch(e => console.log(e));
+            audioPlayer.play().catch(e => {
+                if (e.name !== 'AbortError') console.log(e);
+            });
         }
     }
 });

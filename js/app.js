@@ -72,6 +72,13 @@ async function init() {
     }
 }
 
+// 🏷️ 폴더 표시명 매핑 (모바일 화면 잘림 방지용 축약명 지원)
+const FOLDER_DISPLAY_NAMES = {
+    "Urban Dynamics": "UD",
+    "Urban Heritage": "UH",
+    "Urban Heritage (Re)": "UH (Re)"
+};
+
 // 📁 Folder & Track Rendering
 function renderFolderList() {
     folderListEl.innerHTML = '';
@@ -80,10 +87,13 @@ function renderFolderList() {
         item.className = 'folder-item';
         item.id = `folder-ui-${folderName.replace(/\s+/g, '-')}`;
         item.onclick = () => selectFolder(folderName);
+        item.title = folderName; // 호버 시 전체 폴더명 표시
+
+        const displayName = FOLDER_DISPLAY_NAMES[folderName] || folderName;
 
         const nameDiv = document.createElement('div');
         nameDiv.className = 'folder-name';
-        nameDiv.innerHTML = `<span>${folderName}</span>`;
+        nameDiv.innerHTML = `<span>${displayName}</span>`;
 
         item.appendChild(nameDiv);
         folderListEl.appendChild(item);

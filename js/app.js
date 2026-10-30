@@ -28,7 +28,8 @@ const pauseSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="currentC
 const FOLDER_DISPLAY_NAMES = {
     "Urban Dynamics": "UD",
     "Urban Heritage": "UH",
-    "Urban Heritage (Re)": "UH (Re)"
+    "Urban Heritage (Re)": "UH (Re)",
+    "YT_1": "YT_1"
 };
 
 // 📦 Application Initialization

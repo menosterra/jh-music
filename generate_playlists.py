@@ -2,8 +2,9 @@ import os
 import json
 import urllib.parse
 
-music_dir = r"C:\Project\Music_Streaming_Service\music"
-playlists_json_path = r"C:\Project\Music_Streaming_Service\playlists.json"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+music_dir = os.path.join(base_dir, "music")
+playlists_json_path = os.path.join(base_dir, "playlists.json")
 
 folders_data = {}
 

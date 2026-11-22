@@ -1063,6 +1063,86 @@
         "audio_url": "music/YT_1/Sunset%20From%20the%20Overpass.mp3",
         "folder": "YT_1"
       }
+    ],
+    "YT_nj": [
+      {
+        "id": "YT_nj_01_Midnight Skyline_nj.mp3",
+        "name": "01_Midnight Skyline_nj",
+        "audio_url": "music/YT_nj/01_Midnight%20Skyline_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_02_Chasing The Light_nj.mp3",
+        "name": "02_Chasing The Light_nj",
+        "audio_url": "music/YT_nj/02_Chasing%20The%20Light_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_03_Finding My Pace_nj.mp3",
+        "name": "03_Finding My Pace_nj",
+        "audio_url": "music/YT_nj/03_Finding%20My%20Pace_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_04_New Beginning_nj.mp3",
+        "name": "04_New Beginning_nj",
+        "audio_url": "music/YT_nj/04_New%20Beginning_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_05_Ascent_nj.mp3",
+        "name": "05_Ascent_nj",
+        "audio_url": "music/YT_nj/05_Ascent_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_06_After Hours_nj.mp3",
+        "name": "06_After Hours_nj",
+        "audio_url": "music/YT_nj/06_After%20Hours_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_07_Hold My Name_nj.mp3",
+        "name": "07_Hold My Name_nj",
+        "audio_url": "music/YT_nj/07_Hold%20My%20Name_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_08_Daily Rhythm_nj.mp3",
+        "name": "08_Daily Rhythm_nj",
+        "audio_url": "music/YT_nj/08_Daily%20Rhythm_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_09_Urban Flows_nj.mp3",
+        "name": "09_Urban Flows_nj",
+        "audio_url": "music/YT_nj/09_Urban%20Flows_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_10_Lost in Thought_nj.mp3",
+        "name": "10_Lost in Thought_nj",
+        "audio_url": "music/YT_nj/10_Lost%20in%20Thought_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_11_Dim Light_nj.mp3",
+        "name": "11_Dim Light_nj",
+        "audio_url": "music/YT_nj/11_Dim%20Light_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_12_Reflow_nj.mp3",
+        "name": "12_Reflow_nj",
+        "audio_url": "music/YT_nj/12_Reflow_nj.mp3",
+        "folder": "YT_nj"
+      },
+      {
+        "id": "YT_nj_13_Faded_nj.mp3",
+        "name": "13_Faded_nj",
+        "audio_url": "music/YT_nj/13_Faded_nj.mp3",
+        "folder": "YT_nj"
+      }
     ]
   }
 }
